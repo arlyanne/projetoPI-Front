@@ -1,9 +1,13 @@
 import { Input, Button, Container, Text } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 function Login() {
+
+ const navigate = useNavigate();
+
  const [login, setLogin] = useState ('');
  const [senha, setSenha] = useState('');
 
@@ -17,6 +21,7 @@ function Login() {
       }).then((resp) => {
         const token = resp.data.token;
         localStorage.setItem('token', token);
+        navigate('/carro');
       })
  }
 
