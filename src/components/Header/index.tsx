@@ -16,7 +16,7 @@ const navigate = useNavigate();
     <Box className="header" display="flex">
       <Text  fontSize='2xl' p={5}>Speedy Drive</Text>
       <Link to={'/carro'} style={{padding: "28px"}}>Carros</Link>
-      <Link to={'/usuario'} style={{padding: "28px"}}>Usuarios</Link>
+      <Link to={'/usuario'} style={{padding: "28px"}}>Usuários</Link>
       <Spacer/>
       <IconButton onClick={handleLogout} aria-label='Search database' mr={5} mt={5} icon={<MdInput />} />
     </Box>

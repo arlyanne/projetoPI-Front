@@ -34,7 +34,7 @@ export default function CadastroUsuario() {
 
   function handleSalvar () {
 
-    const body ={
+    const body = {
         senha: senha,
         ativo: ativo,
         nome: nome,
