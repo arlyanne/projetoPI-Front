@@ -22,20 +22,17 @@ import { CarroModel } from "../../Model/Carro.model";
 import { MdDelete, MdEditSquare } from "react-icons/md";
 
 export default function Carro() {
-
   const navigate = useNavigate();
 
   const [listaCarro, setListaCarro] = useState([]);
 
   const toast = useToast();
 
+  function handleNovoCarro() {
+    navigate("/carro/cadastrocarro");
+  }
 
-  function handleNovoCarro () {
-    navigate("/cadastrocarro");
-
-  } 
-
-  useEffect(() => {
+  function listarCarros() {
     api
       .get("/cars")
       .then((resp) => {
@@ -50,6 +47,10 @@ export default function Carro() {
           isClosable: true,
         });
       });
+  }
+
+  useEffect(() => {
+    listarCarros();
   }, []);
 
   function formatarData(dt: string) {
@@ -60,19 +61,32 @@ export default function Carro() {
     return dia + "/" + mes + "/" + ano;
   }
 
+  function deletarCarro(id: number) {
+    api.delete(`cars/${id}`).then(() => {
+      toast({
+        title: "Sucesso",
+        description: "Deletado com sucesso!",
+        status: "success",
+        duration: 4000,
+        isClosable: true,
+      });
+      listarCarros();
+    });
+  }
+
   return (
     <>
       <Header />
-      <Container maxW='90%' >
+      <Container maxW="90%">
         <Flex>
-        <Text fontSize="2xl" mt={5}>
-          Carros
-        </Text>
-        <Spacer/>
+          <Text fontSize="2xl" mt={5}>
+            Carros
+          </Text>
+          <Spacer />
           <Button onClick={handleNovoCarro} mt={5}>
             Novo Carro
           </Button>
-          </Flex>
+        </Flex>
         <TableContainer mt={10}>
           <Table variant="simple">
             <Thead>
@@ -86,19 +100,26 @@ export default function Carro() {
               </Tr>
             </Thead>
             <Tbody>
-            {listaCarro.map((car: CarroModel) => (
-
-              <Tr key={car.id}>
-                <Td>{car.marca}</Td>
-                <Td>{car.modelo}</Td>
-                <Td>{formatarData(car.anoFabricacao.toString())}</Td>
-                <Td>{formatarData(car.anoModelo.toString())}</Td>
-                <Td>{car.valor}</Td>
-                <Td>
-                  <IconButton mr={2} aria-label="Botão Deletar" icon={<MdDelete/>} />
-                  <IconButton aria-label="Botão Editar" icon={<MdEditSquare/>} />
-                </Td>
-              </Tr>
+              {listaCarro.map((car: CarroModel) => (
+                <Tr key={car.id}>
+                  <Td>{car.marca}</Td>
+                  <Td>{car.modelo}</Td>
+                  <Td>{formatarData(car.anoFabricacao.toString())}</Td>
+                  <Td>{formatarData(car.anoModelo.toString())}</Td>
+                  <Td>{car.valor}</Td>
+                  <Td>
+                    <IconButton
+                      onClick={() => deletarCarro(car.id)}
+                      mr={2}
+                      aria-label="Botão Deletar"
+                      icon={<MdDelete />}
+                    />
+                    <IconButton
+                      aria-label="Botão Editar"
+                      icon={<MdEditSquare />}
+                    />
+                  </Td>
+                </Tr>
               ))}
             </Tbody>
           </Table>

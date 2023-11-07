@@ -1,7 +1,7 @@
 import { Input, Button, Container, Text } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 function Login() {
@@ -35,7 +35,11 @@ function Login() {
         <label>Senha</label>
         <Input  type="password" value={senha}  onChange={(e) => setSenha(e.target.value)} />
 
+        <Link to={'/recuperarsenha'} >Esqueceu Senha</Link>
+
         <Button type="button" onClick={handleLogin} width={'100%'} mt={5}>Entrar</Button>
+        
+      
 
 
     </Container>

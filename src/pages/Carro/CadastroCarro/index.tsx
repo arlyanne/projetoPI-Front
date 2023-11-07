@@ -10,10 +10,10 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { Header } from "../../components/Header";
-import api from "../../util/api";
+import api from "../../../util/api";
 import { useNavigate } from "react-router-dom";
 import Resizer from "react-image-file-resizer";
+import { Header } from "../../../components/Header";
 
 export default function CadastroCarro() {
   const [marca, setMarca] = useState("");

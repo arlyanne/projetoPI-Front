@@ -2,6 +2,7 @@ import {
   Button,
   Container,
   Flex,
+  IconButton,
   Spacer,
   Table,
   TableContainer,
@@ -18,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../../util/api";
 import { UsuarioModel } from "../../Model/Usuario.model";
+import { MdDelete, MdEditSquare } from "react-icons/md";
 
 export default function Usuario() {
   const navigate = useNavigate();
@@ -30,7 +32,7 @@ export default function Usuario() {
     navigate("cadastrousuario");
   }
 
-  useEffect(() => {
+  function listarUsuario() {
     api
       .get("/users")
       .then((resp) => {
@@ -45,6 +47,10 @@ export default function Usuario() {
           isClosable: true,
         });
       });
+  }
+
+  useEffect(() => {
+    listarUsuario()
   }, []);
 
   function formatarData(dt: string) {
@@ -54,6 +60,21 @@ export default function Usuario() {
       ano = data.getFullYear();
     return dia + "/" + mes + "/" + ano;
   }
+
+  function deletarUsuario(id:number) {
+    api.delete(`users/${id}`)
+    .then(() => {
+      toast({
+        title: "Sucesso",
+        description: "Deletado com sucesso!",
+        status: "success",
+        duration: 4000,
+        isClosable: true,
+      });
+      listarUsuario();
+    });
+    }
+
 
   return (
     <div>
@@ -85,6 +106,18 @@ export default function Usuario() {
                   <Td>{user.ativo == true ? "Sim" : "Não"}</Td>
                   <Td>{formatarData(user.dataNascimento.toString())}</Td>
                   <Td>{formatarData(user.dataCadastro.toString())}</Td>
+                  <Td>
+                    <IconButton
+                      onClick={() => deletarUsuario(user.id)}
+                      mr={2}
+                      aria-label="Botão Deletar"
+                      icon={<MdDelete />}
+                    />
+                    <IconButton
+                      aria-label="Botão Editar"
+                      icon={<MdEditSquare />}
+                    />
+                  </Td>
                 </Tr>
               ))}
             </Tbody>
