@@ -14,6 +14,7 @@ import api from "../../../util/api";
 import { useNavigate } from "react-router-dom";
 import Resizer from "react-image-file-resizer";
 import { Header } from "../../../components/Header";
+import { NumericFormat } from "react-number-format";
 
 export default function CadastroCarro() {
   const [marca, setMarca] = useState("");
@@ -27,39 +28,35 @@ export default function CadastroCarro() {
   const navigate = useNavigate();
 
   async function handleSelecionarImagem(e: any) {
-    e.preventDefault();    
+    e.preventDefault();
     try {
-        Resizer.imageFileResizer(
-          e.target.files[0],
-          200,
-          200,
-          "JPEG",
-          50,
-          0,
-          (uri) => {
-            console.log(uri);
-            setImagem(uri);
-          },
-          "base64",
-          200,
-          200
-        );
-      } catch (err) {
-        console.log(err);
-      }
-
-      
-    
+      Resizer.imageFileResizer(
+        e.target.files[0],
+        200,
+        200,
+        "JPEG",
+        50,
+        0,
+        (uri) => {
+          console.log(uri);
+          setImagem(uri);
+        },
+        "base64",
+        200,
+        200
+      );
+    } catch (err) {
+      console.log(err);
+    }
   }
 
-  function formatarData(dt:any): string {
+  function formatarData(dt: any): string {
     const dataCorrente = new Date(dt);
     const ano = dataCorrente.getFullYear();
-    const mes = String(dataCorrente.getMonth() + 1).padStart(2, '0'); // Os meses são base 0, então adicionamos 1 e formatamos com dois dígitos.
-    const dia = String(dataCorrente.getDate()).padStart(2, '0');
+    const mes = String(dataCorrente.getMonth() + 1).padStart(2, "0"); // Os meses são base 0, então adicionamos 1 e formatamos com dois dígitos.
+    const dia = String(dataCorrente.getDate()).padStart(2, "0");
     return `${ano}-${mes}-${dia}`;
   }
-
 
   function handleSalvar() {
     const body = {
@@ -68,7 +65,7 @@ export default function CadastroCarro() {
       descricao: descricao,
       anoFabricacao: formatarData(anoFabricacao),
       anoModelo: formatarData(anoModelo),
-      valor: parseInt( valor),
+      valor: parseInt(valor),
       image: imagem,
     };
 
@@ -149,10 +146,11 @@ export default function CadastroCarro() {
           </GridItem>
           <GridItem colSpan={1}>
             <label>Valor</label>
-            <Input
-              mb={5}
-              type="number"
+            <NumericFormat
               value={valor}
+              thousandSeparator=","
+              prefix={"R$"}
+              style={{borderColor: '', border:'solid 1px inherit !important', borderRadius:'5px', height: '2.5rem'}}
               onChange={(e) => setValor(e.target.value)}
             />
           </GridItem>

@@ -19,7 +19,7 @@ export const Header = () => {
       </Text>
       {token && (
         <>
-          <Link to={"/carro"} style={{ padding: "28px" }}>
+          <Link to={"/carros"} style={{ padding: "28px" }}>
             Carros
           </Link>
           <Link to={"/usuario"} style={{ padding: "28px" }}>

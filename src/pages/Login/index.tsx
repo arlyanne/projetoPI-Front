@@ -21,7 +21,7 @@ function Login() {
       }).then((resp) => {
         const token = resp.data.token;
         localStorage.setItem('token', token);
-        navigate('/carro');
+        navigate('/carros');
       })
  }
 

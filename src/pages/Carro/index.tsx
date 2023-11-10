@@ -29,7 +29,7 @@ export default function Carro() {
   const toast = useToast();
 
   function handleNovoCarro() {
-    navigate("/carro/cadastrocarro");
+    navigate("/carros/cadastrocarro");
   }
 
   function listarCarros() {
@@ -53,13 +53,13 @@ export default function Carro() {
     listarCarros();
   }, []);
 
-  function formatarData(dt: string) {
-    const data = new Date(dt),
-      dia = data.getDate().toString().padStart(2, "0"),
-      mes = (data.getMonth() + 1).toString().padStart(2, "0"), //+1 pois no getMonth Janeiro começa com zero.
-      ano = data.getFullYear();
-    return dia + "/" + mes + "/" + ano;
-  }
+  // function formatarData(dt: string) {
+  //   const data = new Date(dt),
+  //     dia = data.getDate().toString().padStart(2, "0"),
+  //     mes = (data.getMonth() + 1).toString().padStart(2, "0"), //+1 pois no getMonth Janeiro começa com zero.
+  //     ano = data.getFullYear();
+  //   return dia + "/" + mes + "/" + ano;
+  // }
 
   function deletarCarro(id: number) {
     api.delete(`cars/${id}`).then(() => {
@@ -97,6 +97,7 @@ export default function Carro() {
                 <Th>Ano Modelo</Th>
                 <Th>Valor</Th>
                 <Th>Ações</Th>
+                
               </Tr>
             </Thead>
             <Tbody>
@@ -104,9 +105,9 @@ export default function Carro() {
                 <Tr key={car.id}>
                   <Td>{car.marca}</Td>
                   <Td>{car.modelo}</Td>
-                  <Td>{formatarData(car.anoFabricacao.toString())}</Td>
-                  <Td>{formatarData(car.anoModelo.toString())}</Td>
-                  <Td>{car.valor}</Td>
+                  <Td>{new Date(car.anoFabricacao).getFullYear().toString()}</Td>
+                  <Td>{new Date(car.anoModelo).getFullYear().toString()}</Td>
+                  <Td>{car.valor.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</Td>
                   <Td>
                     <IconButton
                       onClick={() => deletarCarro(car.id)}
@@ -115,6 +116,7 @@ export default function Carro() {
                       icon={<MdDelete />}
                     />
                     <IconButton
+                    // onClick={() => EditarCarro(car.id)}
                       aria-label="Botão Editar"
                       icon={<MdEditSquare />}
                     />

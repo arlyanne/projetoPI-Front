@@ -3,11 +3,14 @@ import { useEffect, useState } from "react";
 import { Header } from "../../components/Header";
 import axios from "axios";
 import { CarroModel } from "../../Model/Carro.model";
+import { useNavigate } from "react-router-dom";
 
 
 export default function ExibirCarros() {
   
 const [listaDeCarros, setListaDeCarros] = useState([]);
+
+const navigate = useNavigate();
 
 useEffect(() => {
     axios
@@ -15,14 +18,10 @@ useEffect(() => {
     .then((resp) => {
         setListaDeCarros(resp.data.content)
     });
-})
+},[])
 
-function formatarData(dt: string) {
-    const data = new Date(dt),
-      dia = data.getDate().toString().padStart(2, "0"),
-      mes = (data.getMonth() + 1).toString().padStart(2, "0"), //+1 pois no getMonth Janeiro começa com zero.
-      ano = data.getFullYear();
-    return dia + "/" + mes + "/" + ano;
+  function selecionarCarro (idCar: number) {
+   navigate(`/exibircarros/detalhe/${idCar}`);
   }
 
   
@@ -38,15 +37,15 @@ function formatarData(dt: string) {
             <GridItem colSpan={1} key={car.id}>
             <Card>
                 <CardBody>
-                <Image src={car.image} alt='Foto Carros' />
-                <p>Marca:{car.marca}</p>
-                <p>Modelo: {formatarData(car.anoModelo.toString())}</p>
-                <p>Ano: {formatarData(car.anoFabricacao.toString())}</p>
-                <p>Descrição: {car.descricao}</p>
-                <Button>
-            Interesse
-          </Button>
-            </CardBody>
+                <Image src={car.image} alt='Foto Carros' width={'200px'} height={'100px'} />
+                <p>Marca: {car.marca}</p>
+                <p>Modelo: {car.modelo}</p>
+                <Button 
+                  mt={5}
+                  onClick={() => selecionarCarro(car.id)}>
+                    + Detalhes
+                </Button>
+                </CardBody>
            </Card>
            </GridItem>
             ))
