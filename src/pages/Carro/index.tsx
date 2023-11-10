@@ -33,12 +33,13 @@ export default function Carro() {
   }
 
   function listarCarros() {
+
     api
       .get("/cars")
       .then((resp) => {
         setListaCarro(resp.data.content);
       })
-      .catch((error) => {
+      .catch(() => {
         toast({
           title: "Erro",
           description: "Problema na API",
