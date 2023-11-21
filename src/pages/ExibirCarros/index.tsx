@@ -30,7 +30,7 @@ useEffect(() => {
         <Header/>
       <Container maxW="90%" mt={10}>
         <Text mb={10} fontSize="2xl">
-          Exibir Carros
+          Carros Disponiveis
         </Text>
         <Grid templateColumns="repeat(5, 1fr)" gap={6}>
         {listaDeCarros.map((car: CarroModel) => (

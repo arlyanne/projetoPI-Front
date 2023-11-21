@@ -1,19 +1,52 @@
 import { useEffect, useState } from "react";
 import { Header } from "../../../components/Header";
 import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
+  Box,
+  Button,
+  Card,
+  CardBody,
   Container,
+  FormLabel,
+  Grid,
+  GridItem,
+  Img,
+  Input,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { CarroModel } from "../../../Model/Carro.model";
+import { maskPhone } from "../../../util/mask_telefone";
 
 export default function DetalheCarro() {
   const [detalheCarro, setDetalheCarro] = useState<CarroModel>();
+  const [telefone, setTelefone] = useState<string>("")
+  const [nome, setNome] = useState<string>("")
+  const toast = useToast();
+  const [desabilitarBotao, setDesabilitarBotao] = useState<boolean>(false);
+
+
   const params = useParams();
+
+  function enviarDados () {
+    const body = {
+      telefone: telefone,
+      carId: params.id,
+      nome: nome
+    }
+    axios.post ('http://localhost:8080/interests', body)
+      .then(() => {
+        toast({
+          title: "Sucesso.",
+          description: "Dados Enviados.",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        })
+        setDesabilitarBotao(true);
+      })
+  }
 
   useEffect(() => {
     axios.get(`http://localhost:8080/cars/${params.id}`).then((resp) => {
@@ -25,24 +58,44 @@ export default function DetalheCarro() {
     <div>
       <Header />
       <Container maxW="90%" mt={10}>
-        <Breadcrumb>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/exibircarros">Carros</BreadcrumbLink>
-          </BreadcrumbItem>
-
-          <BreadcrumbItem>
-            <Text>Detalhe Carro</Text>
-          </BreadcrumbItem>
-        </Breadcrumb>
-
         {detalheCarro && (
           <>
-            <p>Marca: {detalheCarro.marca}</p>
-            <p>Modelo: {detalheCarro.modelo}</p>
-            <p>Ano Fabricação: {new Date(detalheCarro.anoFabricacao).getFullYear().toString()}</p>
-            <p>Ano Modelo: {new Date(detalheCarro.anoModelo).getFullYear().toString()}</p>
-            <p>Valor: R$ {detalheCarro.valor.toFixed(2).replace('.', ',')}</p>
-            <p>Descrição: {detalheCarro.descricao}</p>
+            <Text fontSize="25px" fontWeight={"bold"}>
+              {detalheCarro.marca} {detalheCarro.modelo} -{" "}
+              {detalheCarro.descricao}
+            </Text>
+            <p>
+              {detalheCarro.anoFabricacao} - {detalheCarro.anoModelo}
+            </p>
+            <Grid templateColumns="repeat(5, 1fr)" gap={6}>
+              <GridItem colSpan={3}>
+                <Box boxSize="md">
+                  <Img src={detalheCarro.image} />
+                </Box>
+              </GridItem>
+              <GridItem colSpan={2}>
+                <Card>
+                  <CardBody>
+                    <Text fontSize="25px" fontWeight={"bold"}>
+                      {detalheCarro.valor.toLocaleString("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      })}
+                    </Text>
+                    <p>preço à vista</p>
+                    <p>
+                      Ficou interessado? Preencha seus dados e envie sua
+                      proposta para o vendedor
+                    </p>
+                    <FormLabel mt={5}>Nome</FormLabel>
+                    <Input value={nome} onChange={(e) => setNome(e.target.value)} />
+                    <FormLabel mt={5}>Telefone</FormLabel>
+                    <Input value={telefone} onChange={(e) => setTelefone(maskPhone(e.target.value))} />
+                    <Button isDisabled={desabilitarBotao} onClick={enviarDados}  mt={5} width={"100%"}>Enviar dados</Button>
+                  </CardBody>
+                </Card>
+              </GridItem>
+            </Grid>
           </>
         )}
       </Container>

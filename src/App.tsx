@@ -3,6 +3,7 @@ import React from "react";
 import { ChakraProvider } from "@chakra-ui/react";
 import AppRouter from "./routes/AppRouter";
 
+
 function App() {
 
   return (
@@ -10,6 +11,7 @@ function App() {
       <ChakraProvider>
         <AppRouter/>
       </ChakraProvider>
+      
     </div>
   );
 }

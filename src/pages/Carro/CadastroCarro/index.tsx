@@ -50,22 +50,14 @@ export default function CadastroCarro() {
     }
   }
 
-  function formatarData(dt: any): string {
-    const dataCorrente = new Date(dt);
-    const ano = dataCorrente.getFullYear();
-    const mes = String(dataCorrente.getMonth() + 1).padStart(2, "0"); // Os meses são base 0, então adicionamos 1 e formatamos com dois dígitos.
-    const dia = String(dataCorrente.getDate()).padStart(2, "0");
-    return `${ano}-${mes}-${dia}`;
-  }
-
   function handleSalvar() {
     const body = {
       marca: marca,
       modelo: modelo,
       descricao: descricao,
-      anoFabricacao: formatarData(anoFabricacao),
-      anoModelo: formatarData(anoModelo),
-      valor: parseInt(valor),
+      anoFabricacao: anoFabricacao.toString(),
+      anoModelo: anoModelo.toString(),
+      valor: valor.replace('R$', "").replace(",", ''),
       image: imagem,
     };
 
@@ -80,7 +72,7 @@ export default function CadastroCarro() {
           isClosable: true,
         });
         setTimeout(() => {
-          navigate("/carro");
+          navigate("/carros");
         }, 2000);
       })
       .catch(() => {
@@ -130,7 +122,7 @@ export default function CadastroCarro() {
             <label>Ano Fabricação</label>
             <Input
               mb={5}
-              type="date"
+              type="number"
               value={anoFabricacao}
               onChange={(e) => setAnoFabricaco(e.target.value)}
             />
@@ -139,7 +131,7 @@ export default function CadastroCarro() {
             <label>Ano Modelo</label>
             <Input
               mb={5}
-              type="date"
+              type="number"
               value={anoModelo}
               onChange={(e) => setAnoModelo(e.target.value)}
             />

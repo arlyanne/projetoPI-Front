@@ -2,9 +2,9 @@ export  class CarroModel{
     
     marca:string;
     modelo:string;
-    anoFabricacao:Date;
+    anoFabricacao:string;
     descricao: string;
-    anoModelo:Date;
+    anoModelo:string;
     valor:number;
     id:number;
     image:string;
@@ -12,9 +12,9 @@ export  class CarroModel{
     constructor(
         marca: string,
         modelo: string,
-        anoFabricacao: Date,
+        anoFabricacao: string,
         descricao: string,
-        anoModelo: Date,
+        anoModelo: string,
         valor: number,
         id: number,
         image: string

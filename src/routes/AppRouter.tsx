@@ -6,6 +6,9 @@ import Carro from "../pages/Carro";
 import Usuario from "../pages/Usuario";
 import DetalheCarro from "../pages/ExibirCarros/DetalheCarro";
 import CadastroCarro from "../pages/Carro/CadastroCarro";
+import CadastroUsuario from "../pages/Usuario/CadastroUsuario";
+import Interesses from "../pages/Interesses";
+import ExibirPDF from "../pages/Interesses/document_pdf";
 
 
 
@@ -24,6 +27,10 @@ export default function AppRouter() {
           <Route path="carros" index element={<Carro />} />
           <Route path="carros/cadastrocarro" index element={<CadastroCarro />} />
           <Route path="usuario" index element={<Usuario />} />
+          <Route path="usuario/cadastrousuario" index element={<CadastroUsuario />} />
+          <Route path="interesses" index element={<Interesses />} />
+          <Route path="document" index element={<ExibirPDF />} />
+
           
         </Route>
       </Routes>

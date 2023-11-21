@@ -25,6 +25,9 @@ export const Header = () => {
           <Link to={"/usuario"} style={{ padding: "28px" }}>
             Usuários
           </Link>
+          <Link to={"/interesses"} style={{ padding: "28px" }}>
+            Interesses
+          </Link>
         </>
       )}
       <Spacer />
