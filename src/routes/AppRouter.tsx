@@ -9,6 +9,7 @@ import CadastroCarro from "../pages/Carro/CadastroCarro";
 import CadastroUsuario from "../pages/Usuario/CadastroUsuario";
 import Interesses from "../pages/Interesses";
 import ExibirPDF from "../pages/Interesses/document_pdf";
+import RecuperarSenha from "../pages/RecuperarSenha";
 
 
 
@@ -19,6 +20,7 @@ export default function AppRouter() {
       <Routes>
         {/* Rotas Publicas */}
         <Route path="login" element={<Login />} />
+        <Route path="recuperarsenha" index element={<RecuperarSenha />} />
         <Route path="exibircarros" element={<ExibirCarros />} />
         <Route path="exibircarros/detalhe/:id" element={<DetalheCarro />} />
 

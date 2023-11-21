@@ -49,6 +49,23 @@ export default function Interesses() {
     navigate('/document');
   }
 
+  function liberarCarro (id: number) {
+    const body ={
+      ativo : false
+    }
+    api.put(`/interests/${id}`, body)
+    .then (() => {
+      listarInteresses()
+      toast({
+        title: "Sucesso",
+        description: "Carro Liberado com Sucesso!",
+        status: "success",
+        duration: 4000,
+        isClosable: true,
+      });
+    })
+  }
+
   useEffect(() => {
     listarInteresses();
   }, []);
@@ -89,7 +106,7 @@ export default function Interesses() {
                   <Td>
                     <Tooltip label="Liberar carro" aria-label="A tooltip">
                       <IconButton
-                        //   onClick={() => deletarro(inters.id)}
+                          onClick={() => liberarCarro(inters.id)}
                         isDisabled={inters.ativo == false}
                         mr={2}
                         aria-label="Liberar"

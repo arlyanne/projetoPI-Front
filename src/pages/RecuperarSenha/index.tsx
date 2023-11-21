@@ -1,5 +1,6 @@
 import { Button, Container, Input, Text } from '@chakra-ui/react';
 import { useState } from 'react'
+import { Header } from '../../components/Header';
 
 function RecuperarSenha() {
   
@@ -8,6 +9,7 @@ function RecuperarSenha() {
   
   return (
     <div>
+       <Header />
       <Container width={"50%"} mt={10}>
         <Text mb={10} fontSize="2xl">
           Recuperar Senha
