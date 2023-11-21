@@ -13,10 +13,11 @@ import {
   Thead,
   Tooltip,
   Tr,
+  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import api from "../../util/api";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { InteresseModel } from "../../Model/Interesse.model";
 import { Header } from "../../components/Header";
 import { MdOutlineDone } from "react-icons/md";
@@ -24,6 +25,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Interesses() {
   const [listaInteresses, setListaInteresses] = useState<InteresseModel[]>([]);
+
 
   const toast = useToast();
   const navigate = useNavigate();
