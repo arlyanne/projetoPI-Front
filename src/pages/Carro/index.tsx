@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { Header } from "../../components/Header";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import api from "../../util/api";
 import { CarroModel } from "../../Model/Carro.model";
 import { MdDelete, MdEditSquare } from "react-icons/md";
@@ -32,28 +32,29 @@ export default function Carro() {
     navigate("/carros/cadastrocarro");
   }
 
-  function listarCarros() {
-
-    api
-      .get("/cars")
-      .then((resp) => {
-        setListaCarro(resp.data.content);
-      })
-      .catch(() => {
-        toast({
-          title: "Erro",
-          description: "Problema na API",
-          status: "error",
-          duration: 4000,
-          isClosable: true,
-        });
-      });
-  }
+  const listarCarros = useCallback(
+    () =>
+      api
+        .get("/cars")
+        .then((resp) => {
+          setListaCarro(resp.data.content);
+        })
+        .catch(() => {
+          toast({
+            title: "Erro",
+            description: "Problema na API",
+            status: "error",
+            duration: 4000,
+            isClosable: true,
+          });
+        }),
+    [toast]
+  );
 
   useEffect(() => {
     listarCarros();
-  }, []);
-
+    return () => {};
+  }, [listarCarros]);
 
   function deletarCarro(id: number) {
     api.delete(`cars/${id}`).then(() => {
@@ -77,13 +78,17 @@ export default function Carro() {
             Carros
           </Text>
           <Spacer />
-          <Button onClick={handleNovoCarro} mt={5}>
+          <Button
+            onClick={handleNovoCarro}
+            mt={5}
+            colorScheme="green"
+            size={"sm"}
+          >
             Novo Carro
           </Button>
         </Flex>
         <TableContainer mt={10}>
           <Table variant="simple">
-            
             <Thead>
               <Tr>
                 <Th>Marca</Th>
@@ -92,7 +97,6 @@ export default function Carro() {
                 <Th>Ano Modelo</Th>
                 <Th>Valor</Th>
                 <Th>Ações</Th>
-                
               </Tr>
             </Thead>
             <Tbody>
@@ -100,9 +104,16 @@ export default function Carro() {
                 <Tr key={car.id}>
                   <Td>{car.marca}</Td>
                   <Td>{car.modelo}</Td>
-                  <Td>{new Date(car.anoFabricacao).getFullYear().toString()}</Td>
+                  <Td>
+                    {new Date(car.anoFabricacao).getFullYear().toString()}
+                  </Td>
                   <Td>{new Date(car.anoModelo).getFullYear().toString()}</Td>
-                  <Td>{car.valor.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'})}</Td>
+                  <Td>
+                    {car.valor.toLocaleString("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    })}
+                  </Td>
                   <Td>
                     <IconButton
                       onClick={() => deletarCarro(car.id)}
@@ -111,7 +122,7 @@ export default function Carro() {
                       icon={<MdDelete />}
                     />
                     <IconButton
-                    // onClick={() => EditarCarro(car.id)}
+                      // onClick={() => EditarCarro(car.id)}
                       aria-label="Botão Editar"
                       icon={<MdEditSquare />}
                     />

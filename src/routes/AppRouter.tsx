@@ -21,7 +21,7 @@ export default function AppRouter() {
         {/* Rotas Publicas */}
         <Route path="login" element={<Login />} />
         <Route path="recuperarsenha" index element={<RecuperarSenha />} />
-        <Route path="exibircarros" element={<ExibirCarros />} />
+        <Route path="/" element={<ExibirCarros />} />
         <Route path="exibircarros/detalhe/:id" element={<DetalheCarro />} />
 
         {/* Rotas Privadas */}

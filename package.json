@@ -17,6 +17,7 @@
     "axios": "^1.6.0",
     "browser-image-compression": "^2.0.2",
     "framer-motion": "^10.16.4",
+    "jotai": "^2.5.1",
     "pdfmake": "^0.2.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

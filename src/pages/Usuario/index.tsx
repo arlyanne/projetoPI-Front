@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { Header } from "../../components/Header";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import api from "../../util/api";
 import { UsuarioModel } from "../../Model/Usuario.model";
 import { MdDelete, MdEditSquare } from "react-icons/md";
@@ -32,26 +32,29 @@ export default function Usuario() {
     navigate("cadastrousuario");
   }
 
-  function listarUsuario() {
-    api
-      .get("/users")
-      .then((resp) => {
-        setListaUsuario(resp.data.content);
-      })
-      .catch((error) => {
-        toast({
-          title: "Erro",
-          description: "Problema na API",
-          status: "error",
-          duration: 4000,
-          isClosable: true,
-        });
-      });
-  }
+  const listarUsuario = useCallback(
+    () =>
+      api
+        .get("/users")
+        .then((resp) => {
+          setListaUsuario(resp.data.content);
+        })
+        .catch(() => {
+          toast({
+            title: "Erro",
+            description: "Problema na API",
+            status: "error",
+            duration: 4000,
+            isClosable: true,
+          });
+        }),
+    [toast]
+  );
 
   useEffect(() => {
-    listarUsuario()
-  }, []);
+    listarUsuario();
+    return () => {};
+  }, [listarUsuario]);
 
   function formatarData(dt: string) {
     const data = new Date(dt),
@@ -61,9 +64,8 @@ export default function Usuario() {
     return dia + "/" + mes + "/" + ano;
   }
 
-  function deletarUsuario(id:number) {
-    api.delete(`users/${id}`)
-    .then(() => {
+  function deletarUsuario(id: number) {
+    api.delete(`users/${id}`).then(() => {
       toast({
         title: "Sucesso",
         description: "Deletado com sucesso!",
@@ -73,8 +75,7 @@ export default function Usuario() {
       });
       listarUsuario();
     });
-    }
-
+  }
 
   return (
     <div>
@@ -85,7 +86,12 @@ export default function Usuario() {
             Usuários
           </Text>
           <Spacer />
-          <Button onClick={handleNovoUsuario} mt={5}>
+          <Button
+            onClick={handleNovoUsuario}
+            mt={5}
+            colorScheme="green"
+            size={"sm"}
+          >
             Novo Usuário
           </Button>
         </Flex>

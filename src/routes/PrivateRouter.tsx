@@ -1,12 +1,11 @@
-import { Navigate, Outlet } from 'react-router-dom';
+import { useAtomValue } from "jotai";
+import { Navigate, Outlet } from "react-router-dom";
+import { authAtom } from "../atom";
 
 function PrivateRouter() {
+  const { isAuth } = useAtomValue(authAtom);
 
-  const isAutenticado = !!localStorage.getItem('token');
-
-  return (
-    isAutenticado ? <Outlet/>  : <Navigate to="/exibircarros"/> 
-  )
+  return isAuth ? <Outlet /> : <Navigate to="/exibircarros" />;
 }
 
-export default PrivateRouter
+export default PrivateRouter;
