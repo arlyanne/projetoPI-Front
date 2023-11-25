@@ -9,15 +9,13 @@ import {
 import "./styles.scss"; // Importe o arquivo SCSS aqui
 import { Link, useNavigate } from "react-router-dom";
 import { MdInput, MdLogin } from "react-icons/md";
-import { useAtom } from "jotai";
-import { authAtom } from "../../atom";
 
 export const Header = () => {
   const navigate = useNavigate();
-  const [{ isAuth }, setValue] = useAtom(authAtom);
+  const token = localStorage.getItem('token');
 
   function handleLogout() {
-    setValue({ isAuth: false, token: undefined });
+    localStorage.removeItem('token')
     navigate("/login");
   }
 
@@ -26,34 +24,19 @@ export const Header = () => {
       <Text
         fontSize="2xl"
         as={Link}
-        to={"/"}
-        color={"#000"}
-        fontFamily={"fantasy"}
-        bgGradient="linear(to-l, #7928CA, #FF0080)"
-        bgClip="text"
-        fontWeight="extrabold"
-        sx={{
-          transition: "all .2s ease-in-out",
-          "&:hover": {
-            color: "#00000084",
-          },
-        }}
+        to={"/"}      
         mx={5}
       >
         Speedy Drive
       </Text>
-      {isAuth && (
+      {token && (
         <Flex
           sx={{
-            "& a": {
-              transition: "all .2s",
-              transitionTimingFunction: "cubic-bezier(0,.84,1,1.02)",
-              color: "black",
-            },
+           
             "& *:hover": {
               transform: "scale(1.1)",
               fontWeight: "bolder",
-              bgGradient: "linear(to-l, #5e5a61, #FF0080)",
+              bgGradient: "linear(to-l, #b8edf2, #b8edf2)",
               bgClip: "text",
             },
           }}
@@ -63,43 +46,36 @@ export const Header = () => {
         >
           <Link
             to={"/carros"}
-            style={{ padding: 10, paddingInline: 10, width: 100 }}
           >
             Carros
           </Link>
           <Link
             to={"/usuario"}
-            style={{ padding: 10, paddingInline: 10, width: 100 }}
           >
             Usuários
           </Link>
           <Link
             to={"/interesses"}
-            style={{ padding: 10, paddingInline: 10, width: 100 }}
           >
             Interesses
           </Link>
         </Flex>
       )}
       <Spacer />
-      {isAuth && (
+      {token && (
         <Tooltip label="Sair">
           <IconButton
             onClick={handleLogout}
             aria-label="Search database"
-            variant={"ghost"}
-            colorScheme={"red"}
             mx={5}
             icon={<MdInput />}
           />
         </Tooltip>
       )}
-      {!isAuth && (
+      {!token && (
         <Button
           onClick={() => navigate("/login")}
           aria-label="Login"
-          colorScheme="green"
-          variant={"outline"}
           mx={5}
           size={"sm"}
         >

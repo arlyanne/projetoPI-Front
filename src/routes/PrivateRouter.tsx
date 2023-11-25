@@ -1,11 +1,9 @@
-import { useAtomValue } from "jotai";
 import { Navigate, Outlet } from "react-router-dom";
-import { authAtom } from "../atom";
 
 function PrivateRouter() {
-  const { isAuth } = useAtomValue(authAtom);
+  const  token = localStorage.getItem('token')
 
-  return isAuth ? <Outlet /> : <Navigate to="/" />;
+  return token ? <Outlet /> : <Navigate to="/" />;
 }
 
 export default PrivateRouter;

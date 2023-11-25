@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useCallback } from "react";
 import api from "../../util/api";
 import { CarroModel } from "../../Model/Carro.model";
-import { MdDelete, MdEditSquare } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 
 export default function Carro() {
   const navigate = useNavigate();
@@ -81,7 +81,6 @@ export default function Carro() {
           <Button
             onClick={handleNovoCarro}
             mt={5}
-            colorScheme="green"
             size={"sm"}
           >
             Novo Carro
@@ -96,7 +95,7 @@ export default function Carro() {
                 <Th>Ano Fabricação</Th>
                 <Th>Ano Modelo</Th>
                 <Th>Valor</Th>
-                <Th>Ações</Th>
+                <Th>Ação</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -120,11 +119,6 @@ export default function Carro() {
                       mr={2}
                       aria-label="Botão Deletar"
                       icon={<MdDelete />}
-                    />
-                    <IconButton
-                      // onClick={() => EditarCarro(car.id)}
-                      aria-label="Botão Editar"
-                      icon={<MdEditSquare />}
                     />
                   </Td>
                 </Tr>

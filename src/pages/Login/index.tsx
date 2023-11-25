@@ -10,14 +10,10 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useSetAtom } from "jotai";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { authAtom } from "../../atom";
+import { Link } from "react-router-dom";
 
 function Login() {
-  const navigate = useNavigate();
-  const setAtom = useSetAtom(authAtom);
   const toast = useToast();
   const [login, setLogin] = useState("");
   const [senha, setSenha] = useState("");
@@ -30,8 +26,9 @@ function Login() {
       })
       .then((resp) => {
         const token = resp.data.token;
-        setAtom({ isAuth: true, token });
-        navigate("/carros");
+        localStorage.setItem('token', token );
+        
+          window.location.assign("/carros");
       })
       .catch((e) => {
         toast({
@@ -53,7 +50,7 @@ function Login() {
               as={Link}
               to={"/"}
               color={"#000"}
-              bgGradient="linear(to-l, #7928CA, #FF0080)"
+              bgGradient="linear(to-l, #4682B4, #4682B4)"
               bgClip="text"
               fontWeight="extrabold"
               sx={{
@@ -94,10 +91,10 @@ function Login() {
             mt={5}
             sx={{
               color: "white",
-              bgGradient: "linear(to-l, #7928CA, #FF0080)",
+              bgGradient: "linear(to-l, #4682B4, #4682B4)",
               "&:hover": {
                 transform: "scale(1.05)",
-                bgGradient: "linear(to-l, #7928CA, #FF0080)",
+                bgGradient: "linear(to-l, #4682B4, #4682B4)",
               },
             }}
           >
@@ -112,7 +109,7 @@ function Login() {
           mt={10}
           boxShadow={"2xl"}
           p={50}
-          bgGradient="linear(to-l, #7928CA, #FF0080)"
+          bgGradient="linear(to-l, #4682B4, #4682B4)"
           justify={"center"}
           align={"center"}
         >

@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useCallback } from "react";
 import api from "../../util/api";
 import { UsuarioModel } from "../../Model/Usuario.model";
-import { MdDelete, MdEditSquare } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 
 export default function Usuario() {
   const navigate = useNavigate();
@@ -89,7 +89,6 @@ export default function Usuario() {
           <Button
             onClick={handleNovoUsuario}
             mt={5}
-            colorScheme="green"
             size={"sm"}
           >
             Novo Usuário
@@ -99,15 +98,19 @@ export default function Usuario() {
           <Table>
             <Thead>
               <Tr>
+                <Th>Login</Th>
                 <Th>Nome</Th>
                 <Th>Ativo</Th>
                 <Th>Data Nascimento</Th>
                 <Th>Data Cadastro</Th>
+                <Th>Excluir</Th>
               </Tr>
             </Thead>
             <Tbody>
               {listaUsuario.map((user: UsuarioModel) => (
                 <Tr key={user.id}>
+                  <Td>{user.login}</Td>
+
                   <Td>{user.nome}</Td>
                   <Td>{user.ativo == true ? "Sim" : "Não"}</Td>
                   <Td>{formatarData(user.dataNascimento.toString())}</Td>
@@ -118,10 +121,6 @@ export default function Usuario() {
                       mr={2}
                       aria-label="Botão Deletar"
                       icon={<MdDelete />}
-                    />
-                    <IconButton
-                      aria-label="Botão Editar"
-                      icon={<MdEditSquare />}
                     />
                   </Td>
                 </Tr>
